@@ -8,8 +8,8 @@ var statusX = 0;
 $(document).ready(function() {
 	stage = new Kinetic.Stage({
           container: "container",
-          width: 900,
-          height: 600
+          width: 600,
+          height: 400
         });
 
  	mainLayer = new Kinetic.Layer();
@@ -34,16 +34,11 @@ $(document).ready(function() {
 	    stage.add(mainLayer);
 	    var tiempo = 0;
 	    stage.onFrame(function (frame){
-	    	//console.log(tiempo);
-	    	if(tiempo == 20){
-	    		tiempo = 0;
-		    	personaje.setX(newV(personaje.getX(),37,39,900));
-	    		personaje.setY(newV(personaje.getY(),38,40,600));
-	    		rotar(37,38,39,40);
-	       		}
-	       		tiempo++;
-	       		personaje.setX(newV(personaje.getX(),37,39,900));
-	    		personaje.setY(newV(personaje.getY(),38,40,600));
+	    		
+	       		tiempo = tiempo <=20 ? tiempo +1: 0;
+	       		personaje.setX(newV(personaje.getX(),37,39,600));
+	    		personaje.setY(newV(personaje.getY(),38,40,400));
+	    		rotar(37,38,39,40,tiempo);
 	    		mainLayer.draw();
        		});
 
@@ -65,32 +60,42 @@ $(document).ready(function() {
 });
 
 function newV(v,a,b,w) {
-	var velocidad = 10;
+	var velocidad = 5;
     var n = parseInt(v, 10) - (diagonal[a] ? velocidad : 0) + (diagonal[b] ? velocidad : 0);
     
     return n < 0 ? 0 : n > w ? w : n;
 }
 
-function rotar(izquierda,arriba,derecha,abajo)
+function rotar(izquierda,arriba,derecha,abajo,tiempo)
 {
 
 	if(diagonal[izquierda]){
-		cambiarSprite(personaje,0,51);
+		if(tiempo%2 == 0)
+			statusX =  statusX < 12? statusX + 1 : 3;
+		cambiarSprite(personaje,statusX,51);
 		personaje.setScale(1,1);		
 	}
 	else if (diagonal[arriba]){
-		cambiarSprite(personaje,0,26);
+		if(tiempo%2 == 0)
+			statusX =  statusX < 12? statusX + 1 : 3;
+		cambiarSprite(personaje,statusX,26);
 	}
 	else if (diagonal[derecha]){
-		cambiarSprite(personaje,0,51);	
+		if(tiempo%2 == 0)
+			statusX =  statusX < 12? statusX + 1 : 3;
+		cambiarSprite(personaje,statusX,51);	
 		personaje.setScale(-1,1);	
 	}	
 	else if (diagonal[abajo]){
-		cambiarSprite(personaje,0,0);
+		if(tiempo%2 == 0)
+			statusX =  statusX < 12? statusX + 1 : 3;
+		cambiarSprite(personaje,statusX,0);
 	}
 	else{
-		statusX =  statusX < 2? statusX + 1 : 0;
-		cambiarSprite(personaje,statusY == 26 ? 0: statusX,statusY);
+		if(tiempo == 20){
+		  statusX =  statusX < 2? statusX + 1 : 0;
+		  cambiarSprite(personaje,statusY == 26 ? 0: statusX,statusY);
+		}
 	}
 }
 
