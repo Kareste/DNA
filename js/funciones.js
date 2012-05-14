@@ -96,7 +96,7 @@ function rotar(izquierda,arriba,derecha,abajo,tiempo)
 		  statusX =  statusX < 2? statusX + 1 : 0;
 		  cambiarSprite(personaje,statusY == 26 ? 0: statusX,statusY);
 		}
-	}
+	} 
 }
 
 /*setInterval(function() {
